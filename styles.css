@@ -1,0 +1,15 @@
+.container {
+	width: 100%;
+	text-align: center;
+	font-family: 'Montserrat', sans-serif;
+}
+
+#title {
+	font-size: 48px;
+	font-weight: 400;
+	text-transform: uppercase;
+}
+
+#instructions {
+	font-weight: 300;
+}
