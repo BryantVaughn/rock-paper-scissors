@@ -41,7 +41,15 @@ const game = () => {
 	let computerWins = 0;
 
 	while (playerWins < pointsNeeded && computerWins < pointsNeeded) {
-		playerChoice = playerSelection();
+		while (true) {
+			try {
+				playerChoice = playerSelection();
+				break;
+			} catch (e) {
+				console.log(e.message);
+			}
+		}
+
 		computerChoice = computerPlay();
 		winner = playRound(playerChoice, computerChoice);
 
