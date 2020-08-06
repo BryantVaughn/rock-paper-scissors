@@ -30,9 +30,9 @@ const playRound = (playerSelection, computerSelection) => {
 	}
 };
 
-// plays best of style for x number of rounds
+// plays as many rounds needed until someone scores pointsNeeded amount
 const game = () => {
-	const rounds = 5;
+	const pointsNeeded = 5;
 
 	let playerChoice;
 	let computerChoice;
@@ -40,7 +40,7 @@ const game = () => {
 	let playerWins = 0;
 	let computerWins = 0;
 
-	for (let i = 0; i < rounds; i++) {
+	while (playerWins < pointsNeeded && computerWins < pointsNeeded) {
 		playerChoice = playerSelection();
 		computerChoice = computerPlay();
 		winner = playRound(playerChoice, computerChoice);
