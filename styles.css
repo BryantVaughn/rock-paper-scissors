@@ -15,25 +15,29 @@
 	margin: auto;
 }
 
-#plays button {
+.btn {
 	height: 170px;
 	width: 170px;
 	margin: 25px 10px;
 	outline: none;
 	border-radius: 5px;
 	cursor: pointer;
+	transition: 0.1s ease-in;
+}
+.btn:hover {
+	transform: scale(1.1);
 }
 
-#img {
+.img {
 	height: 85%;
 	width: 100%;
 	display: block;
 }
 
 .score-board {
-	border: 2px solid black;
+	border: 1px solid black;
 	border-radius: 5px;
-	background-color: rgba(0, 0, 0, 0.1);
+	background-color: rgba(0, 0, 0, 0.05);
 	width: 200px;
 	height: 160px;
 	margin: 25px auto;
@@ -47,9 +51,20 @@
 	font-size: 42px;
 }
 
+.message {
+	font-size: 24px;
+}
+
+.sub-message {
+	font-size: 18px;
+	margin-bottom: 2rem;
+}
+
 .reset {
 	border-radius: 5px;
 	outline: none;
+	text-transform: uppercase;
+	letter-spacing: 0.07rem;
 	width: 200px;
 	height: 40px;
 	transition: 0.1s ease-in;
