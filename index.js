@@ -1,5 +1,3 @@
-import reset from './helpers/reset';
-
 // returns random play for computer
 const computerPlay = () => {
 	const plays = ['Rock', 'Paper', 'Scissors'];
@@ -18,7 +16,9 @@ const playRound = (playerSelection) => {
 	) {
 		playerWins++;
 		configureScoreBoard(
-			`You win this round! ${playerSelection} beats ${computerSelection}`
+			`You win this round! ${capitalize(playerSelection)} beats ${capitalize(
+				computerSelection
+			)}`
 		);
 	} else if (
 		(playerSelection === 'rock' && computerSelection === 'paper') ||
@@ -27,10 +27,14 @@ const playRound = (playerSelection) => {
 	) {
 		computerWins++;
 		configureScoreBoard(
-			`You lose this time... ${computerSelection} beats ${playerSelection}`
+			`You lose this time... ${capitalize(
+				computerSelection
+			)} beats ${capitalize(playerSelection)}`
 		);
 	} else {
-		configureScoreBoard(`It's a draw... you both played ${playerSelection}`);
+		configureScoreBoard(
+			`It's a draw... you both played ${capitalize(playerSelection)}`
+		);
 	}
 
 	let winner = checkWinner();
@@ -66,14 +70,27 @@ const checkWinner = () => {
 	return null;
 };
 
+// helper to capitalize first letter of plays
+const capitalize = (str) => {
+	return str[0].toUpperCase() + str.substring(1).toLowerCase();
+};
+
 // Resets game after someone wins
-reset();
+const reset = () => {
+	const resetBtn = document.querySelector('.reset');
+	resetBtn.remove();
+
+	continueGame = true;
+	playerWins = 0;
+	computerWins = 0;
+	configureScoreBoard(beginMessage);
+};
 
 let firstToScore = 5;
 let playerWins = 0;
 let computerWins = 0;
 let continueGame = true;
-let beginMessage = 'Pick a choice to begin!';
+let beginMessage = `Pick a play to begin! First to ${firstToScore} wins!`;
 
 const container = document.querySelector('.container');
 

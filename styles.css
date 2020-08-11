@@ -43,9 +43,22 @@
 }
 
 .score {
-	margin: 20% auto;
-	font-size: 36px;
+	margin: 30px auto;
+	font-size: 42px;
 }
+
+.reset {
+	border-radius: 5px;
+	outline: none;
+	width: 200px;
+	height: 40px;
+	transition: 0.1s ease-in;
+}
+.reset:hover {
+	transform: scale(1.1);
+	background-color: rgba(0, 0, 0, 0.1);
+}
+
 /* 
 #instructions {
 	font-weight: 300;
