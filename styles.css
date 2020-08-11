@@ -10,6 +10,43 @@
 	text-transform: uppercase;
 }
 
+#plays {
+	width: 80%;
+	margin: auto;
+}
+
+#plays button {
+	height: 170px;
+	width: 170px;
+	margin: 25px 10px;
+	outline: none;
+	border-radius: 5px;
+	cursor: pointer;
+}
+
+#img {
+	height: 85%;
+	width: 100%;
+	display: block;
+}
+
+.score-board {
+	border: 2px solid black;
+	border-radius: 5px;
+	background-color: rgba(0, 0, 0, 0.1);
+	width: 200px;
+	height: 160px;
+	margin: 25px auto;
+	padding-top: 10px;
+	text-transform: uppercase;
+	font-size: 110%;
+}
+
+.score {
+	margin: 20% auto;
+	font-size: 36px;
+}
+/* 
 #instructions {
 	font-weight: 300;
-}
+} */

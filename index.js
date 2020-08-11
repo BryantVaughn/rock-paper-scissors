@@ -1,3 +1,5 @@
+import reset from './helpers/reset';
+
 // returns random play for computer
 const computerPlay = () => {
 	const plays = ['Rock', 'Paper', 'Scissors'];
@@ -5,88 +7,101 @@ const computerPlay = () => {
 	return plays[index].toLowerCase();
 };
 
-// takes player input for play
-const playerSelection = () => {
-	let ps = prompt('Rock, Paper, or Scissors?').toLowerCase();
-
-	if (ps === 'rock' || ps === 'paper' || ps === 'scissors') return ps;
-	else throw new Error(`${capitalize(ps)} is not a valid play.`);
-};
-
 // handles single round of RPC
-const playRound = (playerSelection, computerSelection) => {
-	if (playerSelection === 'rock') {
-		if (computerSelection === 'scissors') return 1;
-		else if (computerSelection === 'paper') return 0;
-		else return -1;
-	} else if (playerSelection === 'paper') {
-		if (computerSelection === 'rock') return 1;
-		else if (computerSelection === 'scissors') return 0;
-		else return -1;
-	} else if (playerSelection === 'scissors') {
-		if (computerSelection === 'paper') return 1;
-		else if (computerSelection === 'rock') return 0;
-		else return -1;
-	}
-};
+const playRound = (playerSelection) => {
+	let computerSelection = computerPlay();
 
-// plays as many rounds needed until someone scores pointsNeeded amount
-const game = () => {
-	const pointsNeeded = 5;
-
-	let playerChoice;
-	let computerChoice;
-	let winner;
-	let playerWins = 0;
-	let computerWins = 0;
-
-	while (playerWins < pointsNeeded && computerWins < pointsNeeded) {
-		while (true) {
-			try {
-				playerChoice = playerSelection();
-				break;
-			} catch (e) {
-				console.log(e.message);
-			}
-		}
-
-		computerChoice = computerPlay();
-		winner = playRound(playerChoice, computerChoice);
-
-		if (winner === 1) {
-			console.log(
-				`You win this round! ${capitalize(playerChoice)} beats ${capitalize(
-					computerChoice
-				)}`
-			);
-			playerWins++;
-		} else if (winner === 0) {
-			console.log(
-				`You lose this round! ${capitalize(computerChoice)} beats ${capitalize(
-					playerChoice
-				)}`
-			);
-			computerWins++;
-		} else {
-			console.log(
-				`No winner this round... Both played ${capitalize(playerChoice)}`
-			);
-		}
+	if (
+		(playerSelection === 'rock' && computerSelection === 'scissors') ||
+		(playerSelection === 'paper' && computerSelection === 'rock') ||
+		(playerSelection === 'scissors' && computerSelection === 'paper')
+	) {
+		playerWins++;
+		configureScoreBoard(
+			`You win this round! ${playerSelection} beats ${computerSelection}`
+		);
+	} else if (
+		(playerSelection === 'rock' && computerSelection === 'paper') ||
+		(playerSelection === 'paper' && computerSelection === 'scissors') ||
+		(playerSelection === 'scissors' && computerSelection === 'rock')
+	) {
+		computerWins++;
+		configureScoreBoard(
+			`You lose this time... ${computerSelection} beats ${playerSelection}`
+		);
+	} else {
+		configureScoreBoard(`It's a draw... you both played ${playerSelection}`);
 	}
 
-	let finalWinner = finalResults(playerWins, computerWins);
-	console.log(`Fianl Score: ${playerWins} - ${computerWins} ${finalWinner}`);
+	let winner = checkWinner();
+	if (winner) endGame(winner);
 };
 
-// helper functions for printing results
-const capitalize = (str) => {
-	return str[0].toUpperCase() + str.substring(1).toLowerCase();
+const configureScoreBoard = (messageStr) => {
+	score.textContent = `${playerWins} - ${computerWins}`;
+	roundMessage.textContent = messageStr;
+	scoreBoard.style.backgroundColor = 'rgba(0,0,0,0.1)';
+	scoreBoard.style.color = 'black';
 };
 
-const finalResults = (playerWins, computerWins) => {
-	return playerWins > computerWins
-		? 'YOU WIN!!!'
-		: playerWins === computerWins
-		? "IT'S A DRAW :-|"
-		: 'YOU LOSE...';
+// configures scoreboard for winner
+const endGame = (winner) => {
+	if (winner === 'player') {
+		scoreBoard.style.backgroundColor = '#b0e18d';
+		roundMessage.textContent = 'YOU WIN!!!';
+	} else {
+		scoreBoard.style.backgroundColor = '#dc4933';
+		scoreBoard.style.color = 'white';
+		roundMessage.textContent = 'You Lose...';
+	}
+	container.appendChild(resetGame);
 };
+
+// checks if player or comp has reached firstToScore value
+const checkWinner = () => {
+	if (playerWins === firstToScore || computerWins === firstToScore) {
+		continueGame = false;
+		return playerWins === firstToScore ? 'player' : 'computer';
+	}
+	return null;
+};
+
+// Resets game after someone wins
+reset();
+
+let firstToScore = 5;
+let playerWins = 0;
+let computerWins = 0;
+let continueGame = true;
+let beginMessage = 'Pick a choice to begin!';
+
+const container = document.querySelector('.container');
+
+const scoreBoard = document.createElement('div');
+scoreBoard.classList.add('score-board');
+scoreBoard.textContent = 'Score';
+
+const score = document.createElement('div');
+score.classList.add('score');
+
+const roundMessage = document.createElement('p');
+configureScoreBoard(beginMessage);
+
+scoreBoard.appendChild(score);
+
+container.appendChild(scoreBoard);
+container.appendChild(roundMessage);
+
+const resetGame = document.createElement('button');
+resetGame.textContent = 'Play Again?';
+resetGame.addEventListener('click', () => {
+	reset();
+});
+resetGame.classList.add('reset');
+
+const buttons = document.querySelectorAll('button');
+buttons.forEach((button) => {
+	button.addEventListener('click', (e) => {
+		if (continueGame) playRound(e.target.id);
+	});
+});
